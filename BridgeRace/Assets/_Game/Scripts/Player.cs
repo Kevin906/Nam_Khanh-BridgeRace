@@ -27,7 +27,7 @@ public class Player : MonoBehaviour
         }
     }
 
-    private void Addbrick()
+    private void Addbrick(Collider col)
     {
 
     }
