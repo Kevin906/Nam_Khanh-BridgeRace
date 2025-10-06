@@ -7,9 +7,8 @@ public class Player : MonoBehaviour
 {
     [SerializeField] private GameObject playerBrickPrefabs;
     [SerializeField] private Rigidbody rbPlayer;
+    [SerializeField] private Transform tfPlayerBrick;
     [SerializeField] private FixedJoystick fJoyStick;
-    [SerializeField] private Vector3 direction;
-    [SerializeField] private Vector2 startTouch;
     [SerializeField] private float speed = 5f;
 
     // Update is called once per frame
@@ -26,5 +25,10 @@ public class Player : MonoBehaviour
         {
             transform.rotation = Quaternion.LookRotation(new Vector3(fJoyStick.Horizontal, 0, fJoyStick.Vertical));
         }
+    }
+
+    private void Addbrick()
+    {
+
     }
 }
