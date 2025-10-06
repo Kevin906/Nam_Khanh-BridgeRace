@@ -1,4 +1,4 @@
-using System.Collections;
+    using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -39,7 +39,7 @@ public class Guner : MonoBehaviour
             //cach 1 lay prefab truc tiep
             //SimplePool.Spawn(bulletPrefab, bulletPoints[i].position, bulletPoints[i].rotation).OnInit();
             //cach 2 lay theo pool type voi dieu kien object do phat de trong folder Resources/Pool
-            SimplePool.Spawn<Bullet>(PoolType.Bullet_2 , bulletPoints[i].position, bulletPoints[i].rotation).OnInit();
+            //SimplePool.Spawn<Bullet>(PoolType.Bullet_2 , bulletPoints[i].position, bulletPoints[i].rotation).OnInit();
         }
     }
 }
