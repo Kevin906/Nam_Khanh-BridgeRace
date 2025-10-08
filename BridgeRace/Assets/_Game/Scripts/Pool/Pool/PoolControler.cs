@@ -22,12 +22,47 @@ public class PoolControler : MonoBehaviour
     public ParticleAmount[] Particle;
 
 
-    public void Awake()
+	public float spawnSpace = 1.5f;
+	public Transform spawnPoint;
+	[SerializeField] private ColorData colorData;
+
+	public void Awake()
     {
-        for (int i = 0; i < Pool.Count; i++)
-        {
-            SimplePool.Preload(Pool[i].prefab, Pool[i].amount, Pool[i].root, Pool[i].collect);
-        }
+		foreach (var pool in Pool)
+		{
+			HBPool.Preload(pool.prefab, pool.amount, pool.root);
+		}
+	}
+
+	private void Start()
+	{
+		SpawnBots();
+	}
+
+    private void SpawnBots()
+    {
+		foreach (var p in Pool)
+		{
+			for (int i = 0; i < p.amount; i++)
+			{
+				Vector3 spawnPos = spawnPoint.position + new Vector3(i * spawnSpace, 0.93f, -0.27f);
+				Quaternion spawnRot = Quaternion.identity;
+
+				GameUnit unit = HBPool.Spawn<GameUnit>(p.prefab.poolType, spawnPos, spawnRot);
+
+				Bot bot = unit as Bot;
+				if (bot != null && colorData != null)
+				{
+					EColorType colorType = (EColorType)Random.Range(1, System.Enum.GetValues(typeof(EColorType)).Length);
+					Material mat = colorData.GetColorMat(colorType);
+					bot.SetColor(mat, colorType);
+				}
+			}
+		}
+	}
+    private void SpawnBricks()
+    {
+
     }
 }
 
@@ -121,7 +156,8 @@ public class ParticleAmount
 public enum PoolType
 {
     None,
-    Bot
+    Bot,
+    Brick
 }
 
 

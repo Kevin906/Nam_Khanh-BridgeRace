@@ -4,15 +4,29 @@ using UnityEngine;
 
 public class Brick : GameUnit
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+	[SerializeField] private Renderer brickRenderer;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+	private void Awake()
+	{
+		if (brickRenderer == null)
+			brickRenderer = GetComponent<Renderer>();
+	}
+
+	public void SetColor(Color color)
+	{
+		if (brickRenderer != null)
+		{
+			brickRenderer.material.color = color;
+		}
+	}
+
+	private void OnEnable()
+	{
+
+	}
+
+	private void OnDisable()
+	{
+
+	}
 }
