@@ -28,12 +28,6 @@ public class PoolControler : MonoBehaviour
         {
             SimplePool.Preload(Pool[i].prefab, Pool[i].amount, Pool[i].root, Pool[i].collect);
         }
-
-        for (int i = 0; i < Particle.Length; i++)
-        {
-            ParticlePool.Preload(Particle[i].prefab, Particle[i].amount, Particle[i].root);
-            ParticlePool.Shortcut(Particle[i].particleType, Particle[i].prefab);
-        }
     }
 }
 
@@ -62,16 +56,6 @@ public class PoolControlerEditor : Editor
                     Transform tf = new GameObject(pool.Pool[i].prefab.poolType.ToString()).transform;
                     tf.parent = pool.transform;
                     pool.Pool[i].root = tf; 
-                }
-            }
-            
-            for (int i = 0; i < pool.Particle.Length; i++)
-            {
-                if (pool.Particle[i].root == null)
-                {
-                    Transform tf = new GameObject(pool.Particle[i].particleType.ToString()).transform;
-                    tf.parent = pool.transform;
-                    pool.Particle[i].root = tf; 
                 }
             }
         }
@@ -130,22 +114,14 @@ public class PoolAmount
 public class ParticleAmount
 {
     public Transform root;
-    public ParticleType particleType;
     public ParticleSystem prefab;
     public int amount;
-}
-
-
-public enum ParticleType
-{
-    Hit
 }
 
 public enum PoolType
 {
     None,
-    Bot,
-    Brick
+    Bot
 }
 
 

@@ -1,27 +1,35 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class UnitSpawner : MonoBehaviour
 {
-	public Transform[] botSpawnPoints;
-	public Transform[] brickSpawnPoints;
+    [SerializeField] private ColorData colorData;
+    [SerializeField] private Transform spawnPoints;
+    [SerializeField] private int numberToSpawn;
+    [SerializeField] private float spawnSpace = 1.5f;
+    [SerializeField] private GameUnit pfBot;
 
-	[SerializeField] private float spacing = 2f;
-	void Update()
+    private void Awake()
     {
-		SpawnBot();
-		SpawnBrick();
+        HBPool.Preload(pfBot, numberToSpawn, this.transform);
+    }
+    private void Start()
+    {
+        SpawnRunners();
     }
 
-	private void SpawnBrick()
-	{
-		
-	}
+    void SpawnRunners()
+    {
+        for (int i = 0; i < numberToSpawn; i++)
+        {
+            Vector3 spawnPos = spawnPoints.position + new Vector3(i * spawnSpace, 0f, 0f);
+            Quaternion spawnRot = Quaternion.identity;
 
-	private void SpawnBot()
-	{
+            Bot runner = HBPool.Spawn<Bot>(PoolType.Bot, spawnPos, spawnRot);
 
-	}
+            EColorType colorType = (EColorType)Random.Range(1, System.Enum.GetValues(typeof(EColorType)).Length);
+            Material mat = colorData.GetColorMat(colorType);
+
+            runner.SetColor(mat, colorType);
+        }
+    }
 }
