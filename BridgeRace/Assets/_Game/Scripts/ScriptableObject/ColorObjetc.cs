@@ -7,11 +7,11 @@ public class ColorObjetc : GameUnit
     public EColorType colorType;
 
     [SerializeField] private ColorData colorData;
-    [SerializeField] private Renderer renderer;
+    [SerializeField] private Renderer rdColor;
 
     public void ChangeColor(EColorType newColorType)
     {
         colorType = newColorType;   
-        renderer.material = colorData.GetColorMat(colorType);
+        rdColor.material = colorData.GetColorMat(colorType);
     }
 }
