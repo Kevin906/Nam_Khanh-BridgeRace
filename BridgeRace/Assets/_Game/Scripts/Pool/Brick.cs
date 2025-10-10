@@ -6,18 +6,15 @@ public class Brick : GameUnit
 {
 	[SerializeField] private Renderer brickRenderer;
 
-	private void Awake()
-	{
-		if (brickRenderer == null)
-			brickRenderer = GetComponent<Renderer>();
-	}
+	public EColorType colorType;
 
-	public void SetColor(Color color)
+	public void SetColor(Material mat, EColorType colorType)
 	{
-		if (brickRenderer != null)
+		if (brickRenderer != null && mat != null)
 		{
-			brickRenderer.material.color = color;
+			brickRenderer.material = mat;
 		}
+		this.colorType = colorType;
 	}
 
 	private void OnEnable()
