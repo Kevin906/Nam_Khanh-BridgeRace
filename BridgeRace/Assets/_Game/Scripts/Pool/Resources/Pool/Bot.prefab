@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 6706708982228076812}
   - component: {fileID: 4759545160795860239}
   m_Layer: 0
-  m_Name: PlayerBrick
+  m_Name: BotBrick
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -256,4 +256,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   poolType: 1
   rdBot: {fileID: 9015641417075083387}
+  rbBotBrick: {fileID: 6706708982228076812}
   colorType: 0
