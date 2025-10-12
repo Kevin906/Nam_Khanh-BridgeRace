@@ -6,9 +6,11 @@ using UnityEngine.Events;
 
 public class GameManager : Singleton<GameManager>
 {
-    //[SerializeField] UserData userData;
-    //[SerializeField] CSVData csv;
-    //private static GameState gameState = GameState.MainMenu;
+	//[SerializeField] UserData userData;
+	//[SerializeField] CSVData csv;
+
+	public enum GameState { MainMenu, GamePlay, Finish, Revive, Setting }
+	private static GameState gameState = GameState.MainMenu;
 
     // Start is called before the first frame update
     protected void Awake()
@@ -28,19 +30,19 @@ public class GameManager : Singleton<GameManager>
         //csv.OnInit();
         //userData?.OnInitData();
 
-        //ChangeState(GameState.MainMenu);
+        ChangeState(GameState.MainMenu);
 
-        UIManager.Ins.OpenUI<MianMenu>();
+        UIManager.Ins.OpenUI<MainMenu>();
     }
 
-    //public static void ChangeState(GameState state)
-    //{
-    //    gameState = state;
-    //}
+    public static void ChangeState(GameState state)
+    {
+        gameState = state;
+    }
 
-    //public static bool IsState(GameState state)
-    //{
-    //    return gameState == state;
-    //}
-  
+    public static bool IsState(GameState state)
+    {
+        return gameState == state;
+    }
+
 }
