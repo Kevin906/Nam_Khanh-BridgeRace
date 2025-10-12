@@ -23,6 +23,7 @@ public class PoolControler : MonoBehaviour
 	[Header("Platform Reference")]
 	[SerializeField] private Transform platform;
 
+
 	private void Awake()
 	{
 		foreach (var pool in Pool)
@@ -96,68 +97,62 @@ public class PoolControler : MonoBehaviour
 
 	private void SpawnBricks()
 	{
-		// Tìm pool chứa prefab brick
-		PoolAmount brickPool = Pool.Find(p => p.prefab != null && p.prefab.poolType == PoolType.Brick);
-		if (brickPool == null || platform == null) return;
-
-		int totalBricks = Mathf.Max(0, brickPool.amount);
-		if (totalBricks == 0) return;
-
-		// Lấy danh sách tất cả màu khả dụng (bot + player)
-		var availableColors = new List<(EColorType color, Material mat)>();
-		foreach (var bot in botList)
+		PoolAmount brickPool = Pool.Find(p => p.prefab && p.prefab.poolType == PoolType.Brick);
+		if (brickPool == null || platform == null || colorData == null)
 		{
-			if (bot != null && bot.colorType != EColorType.Default)
-				availableColors.Add((bot.colorType, colorData.GetColorMat(bot.colorType)));
+			return;
 		}
-		if (player != null && player.colorType != EColorType.Default)
-			availableColors.Add((player.colorType, colorData.GetColorMat(player.colorType)));
 
-		if (availableColors.Count == 0) return;
+		int total = Mathf.Max(1, brickPool.amount);
+		List<(EColorType, Material)> colors = new List<(EColorType, Material)>();
 
-		// Tính vùng platform
-		Vector3 platformPos = platform.position;
-		Vector3 platformScale = platform.localScale;
-
-		float halfX = platformScale.x * 0.5f;
-		float halfZ = platformScale.z * 0.5f;
-		float yPos = platformPos.y + platformScale.y * 0.5f + 0.1f;
-
-		// Xác định số hàng và cột (dựa theo số lượng brick)
-		int rowCount = Mathf.CeilToInt(Mathf.Sqrt(totalBricks)); // số hàng
-		int colCount = Mathf.CeilToInt((float)totalBricks / rowCount); // số cột
-
-		// Tính khoảng cách giữa các brick
-		float spacingX = (platformScale.x - 1f) / colCount; // trừ nhỏ cho khoảng biên
-		float spacingZ = (platformScale.z - 1f) / rowCount;
-
-		int brickIndex = 0;
-
-		for (int row = 0; row < rowCount; row++)
+		// Lấy màu của bot + player
+		foreach (Bot b in botList)
 		{
-			for (int col = 0; col < colCount; col++)
+			if (b != null && b.colorType != EColorType.Default)
 			{
-				if (brickIndex >= totalBricks) break;
+				colors.Add((b.colorType, colorData.GetColorMat(b.colorType)));
+			}
+		}
 
-				// Tính vị trí theo hàng cột
-				float posX = platformPos.x - halfX + (col + 0.5f) * spacingX;
-				float posZ = platformPos.z - halfZ + (row + 0.5f) * spacingZ;
-				Vector3 spawnPos = new Vector3(posX, yPos, posZ);
+		if (player != null && player.colorType != EColorType.Default)
+		{
+			colors.Add((player.colorType, colorData.GetColorMat(player.colorType)));
+		}
 
-				// Spawn brick
-				GameUnit unit = HBPool.Spawn<GameUnit>(brickPool.prefab.poolType, spawnPos, Quaternion.identity);
-				Brick brick = unit as Brick;
-				if (brick != null)
-				{
-					// Random màu trong các màu khả dụng
-					var randomOwner = availableColors[Random.Range(0, availableColors.Count)];
-					brick.SetColor(randomOwner.mat, randomOwner.color);
-				}
+		if (colors.Count == 0)
+		{
+			return;
+		}
 
-				brickIndex++;
+		// Tính lưới spawn
+		Vector3 pos = platform.position;
+		Vector3 scale = platform.localScale;
+		float y = pos.y + scale.y * 0.5f + 0.1f;
+		int row = Mathf.CeilToInt(Mathf.Sqrt(total));
+		int col = Mathf.CeilToInt((float)total / row);
+		float dx = scale.x / col;
+		float dz = scale.z / row;
+		Vector3 start = pos - new Vector3(scale.x, 0, scale.z) * 0.5f;
+
+		// Spawn brick
+		for (int i = 0; i < total; i++)
+		{
+			int r = i / col;
+			int c = i % col;
+			Vector3 p = new Vector3(start.x + (c + 0.5f) * dx, y, start.z + (r + 0.5f) * dz);
+
+			GameUnit unit = HBPool.Spawn<GameUnit>(brickPool.prefab.poolType, p, Quaternion.identity);
+			Brick brick = unit as Brick;
+
+			if (brick != null)
+			{
+				(EColorType colorType, Material mat) = colors[Random.Range(0, colors.Count)];
+				brick.SetColor(mat, colorType);
 			}
 		}
 	}
+
 
 
 

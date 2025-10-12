@@ -41,13 +41,7 @@ public class Player : MonoBehaviour
 
 	private void Addbrick(Collider col)
 	{
-		//if (col == null) return;
 
-		//Brick brick = col.GetComponentInParent<Brick>();
-		//if (brick != null)
-		//{
-		//	HBPool.Despawn(brick);
-		//}
 	}
 	public void SetColor(Material mat, EColorType type)
 	{
