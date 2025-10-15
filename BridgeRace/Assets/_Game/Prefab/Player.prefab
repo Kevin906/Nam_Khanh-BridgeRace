@@ -121,7 +121,7 @@ GameObject:
   - component: {fileID: 8692294505163304374}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -136,7 +136,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0.04, y: 0.8304, z: -9.3}
-  m_LocalScale: {x: 0.5, y: 0.3904, z: 0.5}
+  m_LocalScale: {x: 0.5, y: 0.3, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3317683330669084093}
@@ -254,8 +254,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: acc9ea71d90ddbd499d0d76012d436f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerBrickPrefabs: {fileID: 0}
+  playerBrickPrefabs: {fileID: 570058137981022948, guid: 38348af32f2136043a4e61ac18af8feb, type: 3}
   rbPlayer: {fileID: 4452880587562816543}
-  tfPlayerBrick: {fileID: 0}
+  tfPlayerBrick: {fileID: 3317683330669084093}
   fJoyStick: {fileID: 0}
+  mrPlayer: {fileID: 9015641417075083387}
+  mrPlayerBrick: {fileID: 4371124296651799036, guid: 38348af32f2136043a4e61ac18af8feb, type: 3}
   speed: 5
+  colorType: 6
+  brickHeight: 0.25
+  pickupMoveDuration: 0.15
